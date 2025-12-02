@@ -35,16 +35,23 @@ body {
     display: none;
 }
 
-/* Base style for labels (tabs) - applied to all sizes */
+/* Assign wrappers to grid areas */
+.menu {
+    grid-area: menu-area;
+}
+
+.content-wrapper {
+    grid-area: content-area;
+}
+
+/* Style for individual tab labels */
 .tab-label {
-  grid-area: menu-area;
   padding: 12px 8px;
-  margin-bottom: 0;
+  margin-bottom: 7px;
   background-color: #2C69D5;
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.2s;
-  border-bottom: 1px solid #00000020;
   display: block; 
 }
 
@@ -52,24 +59,26 @@ body {
   background-color: #4a80e6;
 }
 
+/* Hide all content by default */
 .tab-content {
-    grid-area: content-area;
     display: none; 
 }
 
-/* Active Tab Styling */
-#tab1:checked ~ .tab-label[for="tab1"],
-#tab2:checked ~ .tab-label[for="tab2"],
-#tab3:checked ~ .tab-label[for="tab3"],
-#tab4:checked ~ .tab-label[for="tab4"] {
+/* --- Pure CSS Tab Switching Logic --- */
+
+/* Active Tab Styling (Label) */
+#tab1:checked ~ .menu > .tab-label[for="tab1"],
+#tab2:checked ~ .menu > .tab-label[for="tab2"],
+#tab3:checked ~ .menu > .tab-label[for="tab3"],
+#tab4:checked ~ .menu > .tab-label[for="tab4"] {
     background-color: #0d47a1;
 }
 
-/* Active Content Display */
-#tab1:checked ~ #content1,
-#tab2:checked ~ #content2,
-#tab3:checked ~ #content3,
-#tab4:checked ~ #content4 {
+/* Active Content Display (Content Div) */
+#tab1:checked ~ .content-wrapper > #content1,
+#tab2:checked ~ .content-wrapper > #content2,
+#tab3:checked ~ .content-wrapper > #content3,
+#tab4:checked ~ .content-wrapper > #content4 {
     display: block;
 }
 
@@ -110,7 +119,7 @@ body {
   padding: 15px 0;
 }
 
-/* Tablet Layout (600px and up) - Menu & Content are stacked vertically */
+/* Tablet Layout (600px and up) - Menu & Content are side-by-side */
 @media (min-width: 600px) {
   .grid-container {
       grid-template-areas:
@@ -121,16 +130,13 @@ body {
       grid-template-columns: repeat(6, 1fr);
   }
 
+  /* Make labels display horizontally on small tablets */
   .tab-label {
-      /* On tablet, the labels still spread across 2 columns of the 6-column grid */
-      grid-area: menu-area;
-      /* Ensure they appear one after another, instead of all stacking on the grid line */
       display: inline-block; 
       width: auto;
+      margin-right: 10px;
+      border-radius: 4px 4px 0 0; 
   }
-  
-  .tab-content {grid-area: content-area;}
-  .facts {grid-area: facts;}
 
   .content {
       padding: 0 20px;
@@ -150,23 +156,20 @@ body {
         grid-template-columns: 1fr 3fr 3fr 3fr 2fr 2fr; 
     }
 
-    /* All labels stack vertically in the first column (menu-area) */
+    /* Force labels back to vertical stack on desktop */
     .tab-label {
-        grid-area: menu-area;
-        display: block; /* Force labels back to vertical stack */
+        display: block; 
         width: 100%;
+        margin-right: 0;
         margin-bottom: 7px;
+        border-radius: 0;
     }
     
-    /* Content occupies the middle 3 columns */
-    .tab-content {
-        grid-area: content-area;
+    .content-wrapper {
         padding-right: 20px;
     }
 
-    /* Facts occupies the rightmost 2 columns */
     .facts {
-        grid-area: facts;
         padding: 15px; 
     }
 
