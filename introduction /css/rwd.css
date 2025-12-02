@@ -35,6 +35,7 @@ body {
     display: none;
 }
 
+/* Base style for labels (tabs) - applied to all sizes */
 .tab-label {
   grid-area: menu-area;
   padding: 12px 8px;
@@ -56,6 +57,7 @@ body {
     display: none; 
 }
 
+/* Active Tab Styling */
 #tab1:checked ~ .tab-label[for="tab1"],
 #tab2:checked ~ .tab-label[for="tab2"],
 #tab3:checked ~ .tab-label[for="tab3"],
@@ -63,6 +65,7 @@ body {
     background-color: #0d47a1;
 }
 
+/* Active Content Display */
 #tab1:checked ~ #content1,
 #tab2:checked ~ #content2,
 #tab3:checked ~ #content3,
@@ -107,6 +110,7 @@ body {
   padding: 15px 0;
 }
 
+/* Tablet Layout (600px and up) - Menu & Content are stacked vertically */
 @media (min-width: 600px) {
   .grid-container {
       grid-template-areas:
@@ -117,7 +121,14 @@ body {
       grid-template-columns: repeat(6, 1fr);
   }
 
-  .tab-label {grid-area: menu-area;}
+  .tab-label {
+      /* On tablet, the labels still spread across 2 columns of the 6-column grid */
+      grid-area: menu-area;
+      /* Ensure they appear one after another, instead of all stacking on the grid line */
+      display: inline-block; 
+      width: auto;
+  }
+  
   .tab-content {grid-area: content-area;}
   .facts {grid-area: facts;}
 
@@ -127,6 +138,7 @@ body {
 }
 
 
+/* Desktop/Widescreen Layout (768px and up) - Three-column layout */
 @media (min-width: 768px) {
     .grid-container {
         grid-template-areas:
@@ -134,18 +146,25 @@ body {
             'menu-area content-area content-area content-area facts facts' 
             'footer footer footer footer footer footer';
         
+        /* Define column widths: Menu (1 part) | Content (3 parts) | Facts (2 parts) */
         grid-template-columns: 1fr 3fr 3fr 3fr 2fr 2fr; 
     }
 
+    /* All labels stack vertically in the first column (menu-area) */
     .tab-label {
         grid-area: menu-area;
+        display: block; /* Force labels back to vertical stack */
+        width: 100%;
+        margin-bottom: 7px;
     }
     
+    /* Content occupies the middle 3 columns */
     .tab-content {
         grid-area: content-area;
         padding-right: 20px;
     }
 
+    /* Facts occupies the rightmost 2 columns */
     .facts {
         grid-area: facts;
         padding: 15px; 
